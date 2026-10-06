@@ -1,0 +1,27 @@
+# Node dependencies
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+
+# Python & Django
+__pycache__/
+*.py[cod]
+*$py.class
+backend/**/__pycache__/
+*.sqlite3
+backend/media/
+.env
+.venv/
+env/
+venv/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
