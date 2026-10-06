@@ -59,13 +59,18 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  const filteredTests = tests.filter((test) => {
-    const matchesSearch = test.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          test.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          test.parameters_included?.toLowerCase().includes(searchQuery.toLowerCase());
+  const safeTests = Array.isArray(tests) ? tests : [];
+  const safeCategories = Array.isArray(categories) ? categories : [];
+
+  const filteredTests = safeTests.filter((test) => {
+    const q = searchQuery.toLowerCase();
+    const matchesSearch = (test.name && test.name.toLowerCase().includes(q)) ||
+                          (test.description && test.description.toLowerCase().includes(q)) ||
+                          (test.parameters_included && test.parameters_included.toLowerCase().includes(q));
     const matchesCat = selectedCategory === 'all' || test.category_slug === selectedCategory;
     return matchesSearch && matchesCat;
   });
+
 
   const handleQuickSubmit = (e) => {
     e.preventDefault();

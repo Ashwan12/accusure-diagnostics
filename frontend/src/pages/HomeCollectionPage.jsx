@@ -51,7 +51,8 @@ const HomeCollectionPage = () => {
     const fetchTests = async () => {
       try {
         const res = await api.get('/tests/');
-        setAvailableTests(res.data);
+        const testsData = Array.isArray(res.data) ? res.data : [];
+        setAvailableTests(testsData);
 
         // Check if navigated with prefilled test from homepage or tests page
         if (location.state?.prefilledTest) {
@@ -63,14 +64,15 @@ const HomeCollectionPage = () => {
           setCollectionAddress(pre.address || '');
           if (pre.preferredDate) setPreferredDate(pre.preferredDate);
           if (pre.selectedTestId) {
-            const found = res.data.find((t) => t.id === Number(pre.selectedTestId));
+            const found = testsData.find((t) => t.id === Number(pre.selectedTestId));
             if (found) setSelectedTests([found]);
           }
-        } else if (res.data.length > 0) {
+        } else if (testsData.length > 0) {
           // Default select the popular CBC test
-          const cbc = res.data.find((t) => t.code === 'ACC-CBC') || res.data[0];
+          const cbc = testsData.find((t) => t.code === 'ACC-CBC') || testsData[0];
           setSelectedTests([cbc]);
         }
+
       } catch (err) {
         console.error('Failed to fetch tests', err);
       } finally {

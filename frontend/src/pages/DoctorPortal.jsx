@@ -48,10 +48,11 @@ const DoctorPortal = () => {
         api.get('/doctors/prescriptions/'),
         api.get('/bookings/'),
       ]);
-      setPatients(uRes.data);
-      setReports(rRes.data);
-      setPrescriptions(pRes.data);
-      setBookings(bRes.data);
+      setPatients(Array.isArray(uRes.data) ? uRes.data : []);
+      setReports(Array.isArray(rRes.data) ? rRes.data : []);
+      setPrescriptions(Array.isArray(pRes.data) ? pRes.data : []);
+      setBookings(Array.isArray(bRes.data) ? bRes.data : []);
+
     } catch (err) {
       console.error('Failed to load doctor portal data', err);
     } finally {

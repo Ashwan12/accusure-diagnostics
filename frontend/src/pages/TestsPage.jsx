@@ -42,14 +42,19 @@ const TestsPage = () => {
     fetchData();
   }, []);
 
-  const filteredTests = tests.filter((test) => {
+  const safeTests = Array.isArray(tests) ? tests : [];
+  const safeCategories = Array.isArray(categories) ? categories : [];
+
+  const filteredTests = safeTests.filter((test) => {
+    const q = searchQuery.toLowerCase();
     const matchesCategory = selectedCategory === 'all' || test.category_slug === selectedCategory;
-    const matchesSearch = test.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          test.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          test.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          (test.parameters_included && test.parameters_included.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesSearch = (test.name && test.name.toLowerCase().includes(q)) ||
+                          (test.code && test.code.toLowerCase().includes(q)) ||
+                          (test.description && test.description.toLowerCase().includes(q)) ||
+                          (test.parameters_included && test.parameters_included.toLowerCase().includes(q));
     return matchesCategory && matchesSearch;
   });
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

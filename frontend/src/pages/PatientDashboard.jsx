@@ -56,10 +56,11 @@ const PatientDashboard = () => {
         api.get('/billing/'),
         api.get('/doctors/prescriptions/'),
       ]);
-      setBookings(bRes.data);
-      setReports(rRes.data);
-      setInvoices(iRes.data);
-      setPrescriptions(pRes.data);
+      setBookings(Array.isArray(bRes.data) ? bRes.data : []);
+      setReports(Array.isArray(rRes.data) ? rRes.data : []);
+      setInvoices(Array.isArray(iRes.data) ? iRes.data : []);
+      setPrescriptions(Array.isArray(pRes.data) ? pRes.data : []);
+
     } catch (err) {
       console.error('Failed to load patient data', err);
     } finally {

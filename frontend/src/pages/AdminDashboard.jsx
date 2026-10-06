@@ -88,13 +88,15 @@ const AdminDashboard = () => {
         api.get('/reports/'),
         api.get('/auth/users/'),
       ]);
-      setStats(statsRes.data);
-      setBookings(bRes.data);
-      setTests(tRes.data);
-      setInventory(invRes.data);
-      setInvoices(invcRes.data);
-      setReports(rRes.data);
-      setStaffUsers(uRes.data.filter((u) => u.role === 'staff' || u.role === 'admin'));
+      setStats(statsRes.data || {});
+      setBookings(Array.isArray(bRes.data) ? bRes.data : []);
+      setTests(Array.isArray(tRes.data) ? tRes.data : []);
+      setInventory(Array.isArray(invRes.data) ? invRes.data : []);
+      setInvoices(Array.isArray(invcRes.data) ? invcRes.data : []);
+      setReports(Array.isArray(rRes.data) ? rRes.data : []);
+      const usersList = Array.isArray(uRes.data) ? uRes.data : [];
+      setStaffUsers(usersList.filter((u) => u.role === 'staff' || u.role === 'admin'));
+
     } catch (err) {
       console.error('Failed to load admin data', err);
     } finally {
