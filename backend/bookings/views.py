@@ -7,10 +7,16 @@ from accounts.models import User
 
 class BookingViewSet(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
-    permission_classes = [permissions.IsAuthenticated]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]
 
     def get_queryset(self):
         user = self.request.user
+        if not user.is_authenticated:
+            return Booking.objects.none()
         if user.role in ['admin', 'staff', 'doctor']:
             queryset = Booking.objects.all().order_by('-created_at')
         else:
@@ -25,7 +31,59 @@ class BookingViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(patient=self.request.user)
+        patient_user = None
+        if self.request.user.is_authenticated:
+            patient_user = self.request.user
+        else:
+            patient_phone = serializer.validated_data.get('patient_phone', '')
+            patient_name = serializer.validated_data.get('patient_name', 'Patient')
+            if patient_phone:
+                username = f"patient_{patient_phone}"
+                patient_user, _ = User.objects.get_or_create(
+                    username=username,
+                    defaults={
+                        'first_name': patient_name.split()[0] if patient_name else 'Patient',
+                        'last_name': ' '.join(patient_name.split()[1:]) if ' ' in patient_name else 'Guest',
+                        'phone_number': patient_phone,
+                        'role': 'patient',
+                        'address': serializer.validated_data.get('collection_address', ''),
+                    }
+                )
+
+        booking = serializer.save(patient=patient_user)
+
+        # Send booking alert email to ashwanarya20042004@gmail.com
+        try:
+            from django.core.mail import send_mail
+            from django.conf import settings
+            target_email = getattr(settings, 'ADMIN_NOTIFICATION_EMAIL', 'ashwanarya20042004@gmail.com')
+            subject = f"🚨 New Test Booking [{booking.booking_id}] - {booking.patient_name}"
+            msg = (
+                f"NEW TEST BOOKING RECEIVED AT ACCUSURE DIAGNOSTICS\n"
+                f"================================================\n\n"
+                f"Booking ID: {booking.booking_id}\n"
+                f"Patient Name: {booking.patient_name}\n"
+                f"Contact Phone: {booking.patient_phone}\n"
+                f"Age & Gender: {booking.patient_age} Yrs / {booking.patient_gender}\n"
+                f"Collection Mode: {booking.get_collection_type_display()}\n"
+                f"Address: {booking.collection_address}\n"
+                f"Landmark: {booking.landmark or 'N/A'}\n"
+                f"Preferred Date: {booking.preferred_date}\n"
+                f"Preferred Time Slot: {booking.preferred_time_slot}\n"
+                f"Total Amount: Rs. {booking.total_amount}\n"
+                f"Patient Notes: {booking.notes or 'None'}\n\n"
+                f"Please follow up with the patient and dispatch phlebotomist.\n"
+                f"Helpline: 7205573352\n"
+            )
+            send_mail(
+                subject,
+                msg,
+                getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@accusure.com'),
+                [target_email],
+                fail_silently=True
+            )
+        except Exception as mail_err:
+            print("Django email sending exception:", mail_err)
 
     @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
     def update_status(self, request, pk=None):

@@ -21,7 +21,7 @@ class Invoice(models.Model):
 
     invoice_number = models.CharField(max_length=32, unique=True, editable=False)
     booking = models.OneToOneField(Booking, on_delete=models.CASCADE, related_name='invoice')
-    patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='invoices')
+    patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='invoices')
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     home_collection_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

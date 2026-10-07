@@ -25,7 +25,10 @@ class BookingSerializer(serializers.ModelSerializer):
             'total_amount', 'notes', 'created_at', 'updated_at',
             'items', 'test_ids'
         ]
-        read_only_fields = ['id', 'booking_id', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'booking_id', 'patient', 'created_at', 'updated_at']
+        extra_kwargs = {
+            'patient': {'required': False, 'allow_null': True}
+        }
 
     def create(self, validated_data):
         test_ids = validated_data.pop('test_ids', [])
@@ -50,27 +53,34 @@ class BookingSerializer(serializers.ModelSerializer):
         booking.save()
 
         # Automatically create pending invoice
-        from billing.models import Invoice
-        Invoice.objects.create(
-            booking=booking,
-            patient=booking.patient,
-            subtotal=total,
-            discount=0,
-            home_collection_fee=0,
-            total_amount=total,
-            payment_status='PENDING',
-            payment_method='UNPAID'
-        )
+        try:
+            from billing.models import Invoice
+            Invoice.objects.create(
+                booking=booking,
+                patient=booking.patient,
+                subtotal=total,
+                discount=0,
+                home_collection_fee=0,
+                total_amount=total,
+                payment_status='PENDING',
+                payment_method='UNPAID'
+            )
+        except Exception as e:
+            print("Invoice creation note:", e)
 
-        # Create booking notification
-        from notifications.models import Notification
-        Notification.objects.create(
-            user=booking.patient,
-            title=f"Booking Confirmed: {booking.booking_id}",
-            message=f"Your booking for {len(test_ids)} test(s) on {booking.preferred_date} has been placed successfully.",
-            notification_type='BOOKING_RECEIVED',
-            link=f"/dashboard/appointments"
-        )
+        # Create booking notification if user linked
+        if booking.patient:
+            try:
+                from notifications.models import Notification
+                Notification.objects.create(
+                    user=booking.patient,
+                    title=f"Booking Confirmed: {booking.booking_id}",
+                    message=f"Your booking for {len(test_ids)} test(s) on {booking.preferred_date} has been placed successfully.",
+                    notification_type='BOOKING_RECEIVED',
+                    link=f"/dashboard/appointments"
+                )
+            except Exception as e:
+                print("Notification creation note:", e)
 
         return booking
 

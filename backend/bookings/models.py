@@ -20,7 +20,7 @@ class Booking(models.Model):
     )
 
     booking_id = models.CharField(max_length=32, unique=True, editable=False)
-    patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookings')
+    patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='bookings')
     patient_name = models.CharField(max_length=150)
     patient_phone = models.CharField(max_length=20)
     patient_age = models.IntegerField(default=30)
