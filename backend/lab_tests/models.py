@@ -27,6 +27,7 @@ class LabTest(models.Model):
     description = models.TextField(blank=True)
     is_popular = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    image_url = models.CharField(max_length=500, blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

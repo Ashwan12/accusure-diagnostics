@@ -12,6 +12,7 @@ class LabTestSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name', read_only=True)
     category_slug = serializers.CharField(source='category.slug', read_only=True)
     final_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+    image = serializers.CharField(source='image_url', read_only=True)
 
     class Meta:
         model = LabTest
@@ -19,5 +20,5 @@ class LabTestSerializer(serializers.ModelSerializer):
                   'price', 'discount_price', 'final_price', 'sample_type',
                   'fasting_required', 'fasting_hours', 'turnaround_hours',
                   'parameters_included', 'preparation_instructions',
-                  'description', 'is_popular', 'is_active', 'created_at']
+                  'description', 'is_popular', 'is_active', 'image_url', 'image', 'created_at']
 

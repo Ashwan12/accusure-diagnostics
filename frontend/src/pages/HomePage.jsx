@@ -22,6 +22,7 @@ import {
   FileCheck
 } from 'lucide-react';
 import api from '../services/api';
+import { LAB_GALLERY_IMAGES } from '../services/dataFallback';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -335,68 +336,94 @@ const HomePage = () => {
           {filteredTests.slice(0, 6).map((test) => (
             <div
               key={test.id}
-              className="bg-white rounded-2xl border border-slate-200 hover:border-sky-300 shadow-sm hover:shadow-md transition p-5 flex flex-col justify-between"
+              className="bg-white rounded-2xl border border-slate-200 hover:border-sky-300 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between group"
             >
               <div>
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">
-                    {test.category_name}
-                  </span>
-                  {test.is_popular && (
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
-                      Popular Checkup
+                {/* Test Photo Visual Header */}
+                <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                  <img
+                    src={test.image || 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80'}
+                    alt={test.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                  
+                  {/* Badges */}
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-sky-600 text-white backdrop-blur-xs shadow-xs">
+                      {test.category_name}
                     </span>
-                  )}
+                    {test.is_popular && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500 text-white shadow-xs">
+                        Popular
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white text-[11px]">
+                    <span className="font-mono bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded text-[10px]">
+                      {test.code}
+                    </span>
+                    <span className="flex items-center gap-1 font-semibold text-emerald-300 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded text-[10px]">
+                      <Clock className="w-3 h-3" />
+                      {test.turnaround_hours}h Report
+                    </span>
+                  </div>
                 </div>
 
-                <h3 className="font-bold text-slate-900 text-base leading-snug mb-1">
-                  {test.name}
-                </h3>
+                <div className="p-5">
+                  <h3 className="font-bold text-slate-900 text-base leading-snug mb-1 group-hover:text-sky-600 transition-colors">
+                    {test.name}
+                  </h3>
 
-                <p className="text-xs text-slate-500 line-clamp-2 mb-3">
-                  {test.description || 'Standard diagnostic test performed using automated chemiluminescence analyzers.'}
-                </p>
+                  <p className="text-xs text-slate-500 line-clamp-2 mb-3">
+                    {test.description || 'Standard diagnostic test performed using automated chemiluminescence analyzers.'}
+                  </p>
 
-                <div className="space-y-1.5 text-xs text-slate-600 mb-4 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-3.5 h-3.5 text-sky-600" />
-                    <span>Report Time: <strong>{test.turnaround_hours} Hours</strong></span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <TestTube2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Sample Type: <strong>{test.sample_type}</strong></span>
-                  </div>
-                  {test.fasting_required ? (
-                    <div className="text-amber-700 font-medium text-[11px]">
-                      ⚠️ {test.fasting_hours ? `${test.fasting_hours} Hours Fasting Required` : 'Fasting Required'}
+                  <div className="space-y-1.5 text-xs text-slate-600 mb-4 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-3.5 h-3.5 text-sky-600" />
+                      <span>Report Time: <strong>{test.turnaround_hours} Hours</strong></span>
                     </div>
-                  ) : (
-                    <div className="text-emerald-700 font-medium text-[11px]">
-                      ✓ No Fasting Required
+                    <div className="flex items-center gap-2">
+                      <TestTube2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Sample Type: <strong>{test.sample_type}</strong></span>
                     </div>
-                  )}
+                    {test.fasting_required ? (
+                      <div className="text-amber-700 font-medium text-[11px]">
+                        ⚠️ {test.fasting_hours ? `${test.fasting_hours} Hours Fasting Required` : 'Fasting Required'}
+                      </div>
+                    ) : (
+                      <div className="text-emerald-700 font-medium text-[11px]">
+                        ✓ No Fasting Required
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
               {/* Bottom Price & Booking CTA */}
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xl font-black text-slate-900">₹{test.final_price}</span>
-                    {test.discount_price && (
-                      <span className="text-xs line-through text-slate-400">₹{test.price}</span>
-                    )}
+              <div className="p-5 pt-0">
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xl font-black text-slate-900">₹{test.final_price}</span>
+                      {test.discount_price && (
+                        <span className="text-xs line-through text-slate-400">₹{test.price}</span>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-emerald-600 font-bold block">Free Home Collection</span>
                   </div>
-                  <span className="text-[10px] text-emerald-600 font-bold">Free Home Collection</span>
-                </div>
 
-                <Link
-                  to="/home-collection"
-                  state={{ prefilledTest: test }}
-                  className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold transition shadow-xs"
-                >
-                  Book Test
-                </Link>
+                  <Link
+                    to="/home-collection"
+                    state={{ prefilledTest: test }}
+                    className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold transition shadow-xs"
+                  >
+                    Book Test
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
@@ -469,6 +496,71 @@ const HomePage = () => {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* 3.5 DEDICATED LABORATORY & INFRASTRUCTURE SHOWCASE */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="text-center max-w-3xl mx-auto mb-10 space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
+            <span>Advanced Clinical Quality</span>
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Inside ACCUSURE DIAGNOSTICS Laboratory
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Take a look at our certified diagnostic facilities in Jamshedpur. Fully automated analyzers, sterile vacuum sampling, cold-chain transport, and precision MD pathologist verification.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {LAB_GALLERY_IMAGES.map((labItem) => (
+            <div
+              key={labItem.id}
+              className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
+            >
+              <div>
+                <div className="relative h-48 w-full overflow-hidden bg-slate-900">
+                  <img
+                    src={labItem.image}
+                    alt={labItem.title}
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                  <span className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-full bg-sky-600 text-white backdrop-blur-xs shadow-xs">
+                    {labItem.category}
+                  </span>
+                </div>
+
+                <div className="p-5 space-y-2">
+                  <h3 className="font-bold text-slate-900 text-base group-hover:text-sky-600 transition-colors">
+                    {labItem.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {labItem.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-5 pt-0">
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                  <span className="flex items-center gap-1 font-semibold text-emerald-600">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    Calibrated Daily
+                  </span>
+                  <Link
+                    to="/home-collection"
+                    className="font-bold text-sky-600 hover:text-sky-800 flex items-center gap-1"
+                  >
+                    <span>Book Test</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

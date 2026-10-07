@@ -24,6 +24,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Hemoglobin, TLC, DLC, Platelet Count, RBC, PCV, MCV, MCH, MCHC, ESR',
     preparation_instructions: 'No special fasting required. Can be done anytime.',
     description: 'Measures cell counts in blood to evaluate overall health and detect disorders like anemia and infection.',
+    image: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
   },
@@ -44,6 +45,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Total Cholesterol, HDL Cholesterol, LDL Cholesterol, VLDL, Triglycerides, Cholesterol/HDL Ratio',
     preparation_instructions: 'Requires 10-12 hours of overnight fasting. Water is permitted.',
     description: 'Assesses cardiovascular risk and lipid metabolism for heart health.',
+    image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
   },
@@ -64,6 +66,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Triiodothyronine (T3), Thyroxine (T4), Thyroid Stimulating Hormone (TSH)',
     preparation_instructions: 'Fasting preferred. Morning sample recommended before thyroid medication.',
     description: 'Evaluates thyroid gland function to detect hyperthyroidism or hypothyroidism.',
+    image: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
   },
@@ -84,6 +87,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Bilirubin (Total, Direct, Indirect), SGOT/AST, SGPT/ALT, Alkaline Phosphatase, Total Protein, Albumin, Globulin, A/G Ratio',
     preparation_instructions: 'Overnight fasting of 8-10 hours recommended.',
     description: 'Screens for liver injury, jaundice, hepatitis, and protein synthesis health.',
+    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
   },
@@ -103,6 +107,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Blood Urea, Serum Creatinine, Uric Acid, BUN, Calcium, Phosphorus, Electrolytes (Na, K, Cl)',
     preparation_instructions: 'Stay adequately hydrated before test.',
     description: 'Checks kidney filtering capacity and fluid/electrolyte balance.',
+    image: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
   },
@@ -122,6 +127,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'HbA1c %, Estimated Average Glucose (eAG)',
     preparation_instructions: 'No fasting required. Measures 3-month average blood sugar.',
     description: 'Gold standard test for diabetes monitoring and long-term glycemic control.',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
   },
@@ -142,6 +148,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Fasting Plasma Glucose',
     preparation_instructions: 'Strict 8 to 10 hours overnight fasting required.',
     description: 'Evaluates baseline glucose level after fasting.',
+    image: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80',
     is_popular: false,
     is_active: true
   },
@@ -161,6 +168,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Post-Meal Glucose',
     preparation_instructions: 'Sample given exactly 2 hours after commencing a meal.',
     description: 'Evaluates how body manages glucose load after a meal.',
+    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
     is_popular: false,
     is_active: true
   },
@@ -180,6 +188,7 @@ export const FALLBACK_TESTS = [
     parameters_included: '25-OH Vitamin D3 / D2',
     preparation_instructions: 'No fasting required.',
     description: 'Crucial for bone density, calcium absorption, and immune function.',
+    image: 'https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
   },
@@ -200,6 +209,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Serum Vitamin B12',
     preparation_instructions: 'Fasting of 8 hours recommended.',
     description: 'Essential for nerve function, neurological health, and red cell production.',
+    image: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=800&q=80',
     is_popular: false,
     is_active: true
   },
@@ -219,6 +229,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Dengue NS1 Antigen, Dengue IgM Antibody, Dengue IgG Antibody',
     preparation_instructions: 'Can be done at any time during fever illness.',
     description: 'Rapid detection of dengue viral infection during early acute and convalescent phases.',
+    image: 'https://images.unsplash.com/photo-1583912267550-d44d9c9a6331?auto=format&fit=crop&w=800&q=80',
     is_popular: false,
     is_active: true
   },
@@ -238,6 +249,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Color, pH, Specific Gravity, Protein/Albumin, Sugar, Ketones, Pus Cells, RBCs, Epithelial Cells, Crystals, Casts',
     preparation_instructions: 'Clean container provided. First morning mid-stream urine preferred.',
     description: 'Detects urinary tract infections, kidney disorders, and metabolic indicators.',
+    image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
     is_popular: false,
     is_active: true
   },
@@ -258,6 +270,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'CBC (24 Parameters), Fasting Blood Sugar, Lipid Profile, Kidney Function Test, Urine Routine',
     preparation_instructions: '10-12 hours overnight fasting. Includes free home sample collection.',
     description: 'A foundational preventive health screening covering vital organs and metabolism.',
+    image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
   },
@@ -278,6 +291,7 @@ export const FALLBACK_TESTS = [
     parameters_included: 'CBC, Liver Function Test (LFT), Kidney Function Test (KFT), Lipid Profile, Thyroid Profile (T3/T4/TSH), HbA1c, Fasting Sugar, Urine Analysis',
     preparation_instructions: '10-12 hours overnight fasting. Comprehensive health review by MD Pathologist.',
     description: 'Our most popular comprehensive diagnostic health screening for complete wellness.',
+    image: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
   },
@@ -298,8 +312,54 @@ export const FALLBACK_TESTS = [
     parameters_included: 'Master Package + Vitamin D3 + Vitamin B12 + Calcium + Iron Studies + Cardiac Risk Markers',
     preparation_instructions: '10-12 hours overnight fasting. Phlebotomist visits home with comfortable gentle draw needles.',
     description: 'Advanced preventive screening specially curated for seniors aged 50+.',
+    image: 'https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=800&q=80',
     is_popular: true,
     is_active: true
+  }
+];
+
+export const LAB_GALLERY_IMAGES = [
+  {
+    id: 1,
+    title: 'Automated 5-Part Hematology Analyzers',
+    description: 'Fully automated cell counters providing precision complete blood counts (CBC) with laser flow cytometry.',
+    category: 'Advanced Equipment',
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    id: 2,
+    title: 'BD Vacutainer Sterile Vacuum Tubes',
+    description: 'Pre-barcoded, color-coded vacuum tubes guaranteeing exact draw volume and preventing hemolysis.',
+    category: 'Sampling Infrastructure',
+    image: 'https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    id: 3,
+    title: 'Pathology Optical Smear Microscopy',
+    description: 'Certified MD pathologists manually verifying blood morphology, differential counts, and abnormal cells.',
+    category: 'Pathologist Review',
+    image: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    id: 4,
+    title: 'Modern Birsanagar Diagnostic Center',
+    description: 'Walk-in sample collection center at Shop No. 7, MIJO HOUSE, Sunday Market, Birsanagar, Jamshedpur.',
+    category: 'Center Facility',
+    image: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    id: 5,
+    title: 'Painless Doorstep Phlebotomy Protocol',
+    description: 'Trained phlebotomists using single-use butterfly needles, alcohol swabs, and sterile gloves for zero pain.',
+    category: 'Doorstep Service',
+    image: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    id: 6,
+    title: 'Cold-Chain Sample Transport Boxes',
+    description: 'Calibrated temperature insulation maintaining 2°C - 8°C from customer doorstep straight to analyzer.',
+    category: 'Quality Assurance',
+    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=80'
   }
 ];
 
