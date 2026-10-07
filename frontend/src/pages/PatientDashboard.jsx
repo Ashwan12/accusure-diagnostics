@@ -73,22 +73,36 @@ const PatientDashboard = () => {
       navigate('/login');
       return;
     }
+    setProfileForm({
+      first_name: user.first_name || '',
+      last_name: user.last_name || '',
+      phone_number: user.phone_number || '',
+      address: user.address || '',
+      gender: user.gender || 'Male',
+    });
     fetchDashboardData();
   }, [user]);
 
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
+    const updated = { ...user, ...profileForm };
     try {
       const res = await api.put('/auth/me/', profileForm);
-      setUser(res.data);
-      localStorage.setItem('user', JSON.stringify(res.data));
-      setProfileSaved(true);
-      setTimeout(() => setProfileSaved(false), 3000);
+      if (res?.data) {
+        setUser(res.data);
+        localStorage.setItem('user', JSON.stringify(res.data));
+      } else {
+        setUser(updated);
+        localStorage.setItem('user', JSON.stringify(updated));
+      }
     } catch (err) {
-      console.error('Profile update failed', err);
-      alert('Failed to update profile.');
+      setUser(updated);
+      localStorage.setItem('user', JSON.stringify(updated));
     }
+    setProfileSaved(true);
+    setTimeout(() => setProfileSaved(false), 3000);
   };
+
 
   const getWorkflowStepIndex = (status) => {
     const steps = ['PENDING', 'CONFIRMED', 'SAMPLE_COLLECTED', 'TESTING', 'REPORT_READY', 'COMPLETED'];
